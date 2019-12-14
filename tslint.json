@@ -15,6 +15,9 @@
     ],
     "ordered-imports": [
       false
+    ],
+    "quotemark": [
+      false
     ]
   },
   "rulesDirectory": []
