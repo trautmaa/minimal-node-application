@@ -15,7 +15,7 @@ export class AppDAO {
 
     public run(sql: string, params: string[] = []) {
         return new Promise((resolve, reject) => {
-            this.db.run(sql, params, function (err) {
+            this.db.run(sql, params, function(err) {
                 if (err) {
                     console.log('Error running sql ' + sql);
                     console.log(err);
@@ -26,4 +26,32 @@ export class AppDAO {
             });
         });
     }
+
+    public get(sql: string, params: string[] = []) {
+        return new Promise((resolve, reject) => {
+          this.db.get(sql, params, (err, result) => {
+            if (err) {
+              console.log('Error running sql: ' + sql);
+              console.log(err);
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          });
+        });
+      }
+
+      public all(sql: string, params: string[] = []) {
+        return new Promise((resolve, reject) => {
+          this.db.all(sql, params, (err, rows) => {
+            if (err) {
+              console.log('Error running sql: ' + sql);
+              console.log(err);
+              reject(err);
+            } else {
+              resolve(rows);
+            }
+          });
+        });
+      }
 }
