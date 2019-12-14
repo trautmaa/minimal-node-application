@@ -12,7 +12,7 @@ export class UserRepository {
           name TEXT,
           email TEXT)`;
         return this.dao.run(sql);
-      }
+    }
 
     public create(name: string, email: string) {
         return this.dao.run(
@@ -41,7 +41,7 @@ export class UserRepository {
 
     public getById(id: string) {
         return this.dao.get(
-            `SELECT * FROM tasks WHERE id = ?`,
+            `SELECT * FROM users WHERE id = ?`,
             [id]
         );
     }

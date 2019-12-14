@@ -18,7 +18,7 @@ export class ProjectRepository {
 
     public create(name: string, userId: string) {
         return this.dao.run(
-            'INSERT INTO projects (name, userId) VALUES (?)',
+            'INSERT INTO projects (name, userId) VALUES (?, ?)',
             [name, userId]
         );
     }

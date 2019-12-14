@@ -3,9 +3,14 @@ import Promise from 'bluebird';
 import { AppDAO } from '../dao';
 import { ProjectRepository } from './project_repository';
 import { UserRepository } from './user_repository';
-import { IProject, IUser } from './types/types';
+import { IProject, IUser, IDatabase } from './types/types';
+import cors from "cors";
+import "dotenv/config";
+import express from "express";
+import { messageRoutes } from "./routes/messages";
+import { userRoutes } from "./routes/users";
 
-function main() {
+function dbSetup() {
     const dao = new AppDAO('./database.sqlite3');
     const userData = { name: 'Traut', email: 'hello.com' };
     const projectRepo = new ProjectRepository(dao);
@@ -53,6 +58,34 @@ function main() {
             console.log('Error: ');
             console.log(JSON.stringify(err));
         });
+
+    return { userRepo, projectRepo };
+}
+
+function serverSetup(db: IDatabase) {
+    // Express
+    const app = express();
+    app.use(cors());
+
+    // Routes
+    const { userRepo } = db;
+
+    userRoutes(app, userRepo);
+    messageRoutes(app);
+
+    app.get("/", (req, res) => {
+        res.send("goodbye world");
+    });
+
+    app.listen(3000, () =>
+        console.log("Example app listening on port 3000!"),
+    );
+
+}
+
+function main() {
+    const db = dbSetup();
+    serverSetup(db);
 }
 
 main();

@@ -1,6 +1,7 @@
 import { Express } from "express";
+import { UserRepository } from "../user_repository";
 
-export const userRoutes = (app: Express) => {
+export const userRoutes = (app: Express, userRepo: UserRepository) => {
 
     const users = [
         {
@@ -20,7 +21,8 @@ export const userRoutes = (app: Express) => {
     });
 
     app.get("/users", (req, res) => {
-        return res.send(users);
+        const resp = userRepo.getAll().then((theUsers) => res.send(theUsers));
+        // return res.send(users);
     });
     app.post("/users", (req, res) => {
         return res.send("Received a POST HTTP method: users");
